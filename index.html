@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FESTIVAL KAMPUS 2024</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #6b46c1;
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #553c9a;
+        }
+
+        /* Smooth Scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Custom Cursor */
+        .cursor {
+            position: fixed;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: rgba(107, 70, 193, 0.5);
+            pointer-events: none;
+            mix-blend-mode: difference;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: transform 0.1s ease;
+        }
+
+        .cursor-follower {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.8);
+            pointer-events: none;
+            z-index: 9998;
+            transform: translate(-50%, -50%);
+            transition: transform 0.3s ease, width 0.3s ease, height 0.3s ease;
+        }
+
+        .hover-effect:hover ~ .cursor {
+            transform: translate(-50%, -50%) scale(3);
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .hover-effect:hover ~ .cursor-follower {
+            width: 0;
+            height: 0;
+        }
+
+        /* Parallax Effect */
+        .parallax {
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        /* Gradient Text */
+        .gradient-text {
+            background: linear-gradient(90deg, #6b46c1, #b794f4);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        /* Animated Background */
+        .animated-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.2;
+            filter: blur(60px);
+        }
+
+        .shape:nth-child(1) {
+            background: #6b46c1;
+            width: 300px;
+            height: 300px;
+            top: -100px;
+            left: -100px;
+        }
+
+        .shape:nth-child(2) {
+            background: #b794f4;
+            width: 400px;
+            height: 400px;
+            bottom: -150px;
+            right: -100px;
+        }
+
+        /* Animate on scroll */
+        .hidden {
+            opacity: 0;
+            filter: blur(5px);
+            transform: translateY(20px);
+            transition: all 1s;
+        }
+
+        .show {
+            opacity: 1;
+            filter: blur(0);
+            transform: translateY(0);
+        }
+
+        /* Glow Effect */
+        .glow {
+            box-shadow: 0 0 15px rgba(107, 70, 193, 0.5);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .glow:hover {
+            box-shadow: 0 0 25px rgba(107, 70, 193, 0.8);
+        }
+    </style>
+</head>
+<body class="font-sans bg-gray-900 text-white overflow-x-hidden">
+    <!-- Custom Cursor Elements -->
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
+    <!-- Animated Background -->
+    <div class="animated-bg">
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="fixed w-full z-50 bg-gray-900 bg-opacity-90 backdrop-blur-sm">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-2xl font-bold gradient-text hover-effect">
+                <a href="#">FEST<span class="text-purple-300">UNIKA</span></a>
+            </div>
+            <div class="hidden md:flex space-x-8">
+                <a href="#home" class="hover-effect hover:text-purple-300 transition">Home</a>
+                <a href="#about" class="hover-effect hover:text-purple-300 transition">About</a>
+                <a href="#events" class="hover-effect hover:text-purple-300 transition">Events</a>
+                <a href="#speakers" class="hover-effect hover:text-purple-300 transition">Speakers</a>
+                <a href="#register" class="hover-effect hover:text-purple-300 transition">Register</a>
+            </div>
+            <div class="md:hidden">
+                <button id="menu-toggle" class="hover-effect">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden bg-gray-800 md:hidden">
+            <div class="px-6 py-4 space-y-4">
+                <a href="#home" class="block hover-effect hover:text-purple-300 transition">Home</a>
+                <a href="#about" class="block hover-effect hover:text-purple-300 transition">About</a>
+                <a href="#events" class="block hover-effect hover:text-purple-300 transition">Events</a>
+                <a href="#speakers" class="block hover-effect hover:text-purple-300 transition">Speakers</a>
+                <a href="#register" class="block hover-effect hover:text-purple-300 transition">Register</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="min-h-screen flex items-center justify-center relative overflow-hidden parallax" style="background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=1470&auto=format&fit=crop');">
+        <div class="container mx-auto px-6 text-center">
+            <h1 class="text-5xl md:text-7xl font-bold mb-6 gradient-text">FESTIVAL KAMPUS 2024</h1>
+            <p class="text-xl md:text-2xl mb-8 text-purple-200">"Innovation, Creativity, and Academic Excellence"</p>
+            <div>
+                <a href="#register" class="hover-effect inline-block px-8 py-3 bg-purple-600 text-white font-semibold rounded-full glow transform transition hover:scale-105 hover:bg-purple-700">
+                    Daftar Sekarang
+                </a>
+            </div>
+        </div>
+        <div class="absolute bottom-10 w-full flex justify-center animate-bounce">
+            <a href="#about" class="hover-effect text-4xl text-purple-300">
+                <i class="fas fa-angle-down"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-gray-800">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold gradient-text mb-4">Tentang Acara</h2>
+                <div class="w-24 h-1 bg-purple-500 mx-auto mb-6"></div>
+                <p class="text-gray-300 max-w-3xl mx-auto text-lg">
+                    Festival Kampus 2024 adalah acara tahunan terbesar yang mempertemukan mahasiswa, dosen, dan profesional dari berbagai bidang. Acara ini akan mengangkat tema inovasi dan kreativitas dengan berbagai kegiatan menarik.
+                </p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-10">
+                <div class="bg-gray-700 p-8 rounded-xl glow">
+                    <div class="text-purple-400 text-4xl mb-4">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Tanggal Penting</h3>
+                    <p class="text-gray-300">
+                        <strong>15-17 November 2024</strong><br>
+                        Pendaftaran ditutup pada 10 November 2024
+                    </p>
+                </div>
+                <div class="bg-gray-700 p-8 rounded-xl glow">
+                    <div class="text-purple-400 text-4xl mb-4">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Lokasi</h3>
+                    <p class="text-gray-300">
+                        <strong>Kampus Unika</strong><br>
+                        Auditorium Utama dan Area Outdoor
+                    </p>
+                </div>
+                <div class="bg-gray-700 p-8 rounded-xl glow">
+                    <div class="text-purple-400 text-4xl mb-4">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Peserta</h3>
+                    <p class="text-gray-300">
+                        Mahasiswa, Dosen, dan Profesional<br>
+                        Kapasitas terbatas untuk 500 peserta
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Events Section -->
+    <section id="events" class="py-20 bg-gray-900">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold gradient-text mb-4">Rangkaian Acara</h2>
+                <div class="w-24 h-1 bg-purple-500 mx-auto mb-6"></div>
+                <p class="text-gray-300 max-w-3xl mx-auto text-lg">
+                    Berbagai acara menarik telah kami siapkan untuk memenuhi kebutuhan akademik dan kreativitas Anda.
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Event 1 -->
+                <div class="bg-gray-800 rounded-xl overflow-hidden glow">
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?w=500&auto=format&fit=crop" alt="Seminar" class="w-full h-full object-cover hover:scale-105 transition duration-500">
+                        <div class="absolute top-4 left-4 bg-purple-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                            Hari 1
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold mb-2 gradient-text">Seminar Nasional</h3>
+                        <p class="text-gray-300 mb-4">Diskusi panel tentang tren terbaru di bidang teknologi dan bisnis dengan pembicara ternama.</p>
+                        <div class="flex items-center text-gray-400">
+                            <i class="far fa-clock mr-2"></i>
+                            <span>08.00 - 12.00 WIB</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Event 2 -->
+                <div class="bg-gray-800 rounded-xl overflow-hidden glow">
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1511578314322-379afb476865?q=80&w=1470&auto=format&fit=crop" alt="Workshop" class="w-full h-full object-cover hover:scale-105 transition duration-500">
+                        <div class="absolute top-4 left-4 bg-purple-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                            Hari 2
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold mb-2 gradient-text">Workshop Kreatif</h3>
+                        <p class="text-gray-300 mb-4">Pelatihan praktis tentang desain grafis, coding, fotografi, dan bidang kreatif lainnya.</p>
+                        <div class="flex items-center text-gray-400">
+                            <i class="far fa-clock mr-2"></i>
+                            <span>13.00 - 17.00 WIB</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Event 3 -->
+                <div class="bg-gray-800 rounded-xl overflow-hidden glow">
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=1470&auto=format&fit=crop" alt="Competition" class="w-full h-full object-cover hover:scale-105 transition duration-500">
+                        <div class="absolute top-4 left-4 bg-purple-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                            Hari 3
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold mb-2 gradient-text">Kompetisi Inovasi</h3>
+                        <p class="text-gray-300 mb-4">Ajang unjuk kemampuan bagi mahasiswa untuk menampilkan solusi inovatif dari berbagai masalah.</p>
+                        <div class="flex items-center text-gray-400">
+                            <i class="far fa-clock mr-2"></i>
+                            <span>09.00 - 15.00 WIB</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Event 4 -->
+                <div class="bg-gray-800 rounded-xl overflow-hidden glow">
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1558625332-9a35ee767f24?q=80&w=724&auto=format&fit=crop" alt="Concert" class="w-full h-full object-cover hover:scale-105 transition duration-500">
+                        <div class="absolute top-4 left-4 bg-purple-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                            Malam Hari
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold mb-2 gradient-text">Konser Musik</h3>
+                        <p class="text-gray-300 mb-4">Hiburan musik dari band-band kampus dan musisi terkenal untuk menutup acara festival.</p>
+                        <div class="flex items-center text-gray-400">
+                            <i class="far fa-clock mr-2"></i>
+                            <span>19.00 - 22.00 WIB</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Speakers Section -->
+    <section id="speakers" class="py-20 bg-gray-800">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold gradient-text mb-4">Pembicara Utama</h2>
+                <div class="w-24 h-1 bg-purple-500 mx-auto mb-6"></div>
+                <p class="text-gray-300 max-w-3xl mx-auto text-lg">
+                    Belajar langsung dari para ahli dan praktisi ternama di bidangnya masing-masing.
+                </p>
+            </div>
+            
+            <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+                <!-- Speaker 1 -->
+                <div class="bg-gray-700 rounded-xl p-6 text-center glow transform transition hover:-translate-y-2 hover-effect">
+                    <div class="w-32 h-32 mx-auto mb-4 rounded-full overflow-hidden border-4 border-purple-500">
+                        <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Speaker 1" class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="text-xl font-semibold">Dr. Sarah Wijaya</h3>
+                    <p class="text-purple-300 mb-2">CEO TechInnovate</p>
+                    <p class="text-gray-300 text-sm">Ahli Teknologi dan Inovasi Digital</p>
+                </div>
+                
+                <!-- Speaker 2 -->
+                <div class="bg-gray-700 rounded-xl p-6 text-center glow transform transition hover:-translate-y-2 hover-effect">
+                    <div class="w-32 h-32 mx-auto mb-4 rounded-full overflow-hidden border-4 border-purple-500">
+                        <img src="https://randomuser.me/api/portraits/men/65.jpg" alt="Speaker 2" class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="text-xl font-semibold">Prof. John Doe</h3>
+                    <p class="text-purple-300 mb-2">Pakar AI</p>
+                    <p class="text-gray-300 text-sm">Dosen Universitas XYZ</p>
+                </div>
+                
+                <!-- Speaker 3 -->
+                <div class="bg-gray-700 rounded-xl p-6 text-center glow transform transition hover:-translate-y-2 hover-effect">
+                    <div class="w-32 h-32 mx-auto mb-4 rounded-full overflow-hidden border-4 border-purple-500">
+                        <img src="https://randomuser.me/api/portraits/women/66.jpg" alt="Speaker 3" class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="text-xl font-semibold">Dr. Lisa Tan</h3>
+                    <p class="text-purple-300 mb-2">Pakar Kesehatan Mental</p>
+                    <p class="text-gray-300 text-sm">Dosen Universitas ABC</p>
+                </div>
+                
+                <!-- Speaker 4 -->
+                <div class="bg-gray-700 rounded-xl p-6 text-center glow transform transition hover:-translate-y-2 hover-effect">
+                    <div class="w-32 h-32 mx-auto mb-4 rounded-full overflow-hidden border-4 border-purple-500">
+                        <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="Speaker 4" class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="text-xl font-semibold">Ir. Budi Santoso</h3>
+                    <p class="text-purple-300 mb-2">Entrepreneur</p>
+                    <p class="text-gray-300 text-sm">Founder StartupXYZ</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Registration Section -->
+    <section id="register" class="py-20 bg-gray-900">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold gradient-text mb-4">Form Pendaftaran</h2>
+                <div class="w-24 h-1 bg-purple-500 mx-auto mb-6"></div>
+                <p class="text-gray-300 max-w-3xl mx-auto text-lg">
+                    Daftarkan diri Anda sekarang untuk menjadi bagian dari Festival Kampus 2024. Kuota terbatas!
+                </p>
+            </div>
+            
+            <div class="max-w-2xl mx-auto bg-gray-800 rounded-xl p-8 glow">
+                <form id="registration-form">
+                    <div class="mb-6">
+                        <label for="name" class="block text-gray-300 mb-2">Nama Lengkap</label>
+                        <input type="text" id="name" name="name" required 
+                               class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-white">
+                    </div>
+                    
+                    <div class="mb-6">
+                        <label for="email" class="block text-gray-300 mb-2">Email</label>
+                        <input type="email" id="email" name="email" required 
+                               class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-white">
+                    </div>
+                    
+                    <div class="mb-6">
+                        <label for="phone" class="block text-gray-300 mb-2">Nomor HP/WhatsApp</label>
+                        <input type="tel" id="phone" name="phone" required 
+                               class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-white">
+                    </div>
+                    
+                    <div class="mb-6">
+                        <label for="university" class="block text-gray-300 mb-2">Asal Kampus</label>
+                        <input type="text" id="university" name="university" required 
+                               class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-white">
+                    </div>
+                    
+                    <div class="mb-8">
+                        <label for="faculty" class="block text-gray-300 mb-2">Fakultas/Jurusan</label>
+                        <input type="text" id="faculty" name="faculty" required 
+                               class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-white">
+                    </div>
+                    
+                    <button type="submit" class="w-full hover-effect px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg glow transform transition hover:scale-[1.02] hover:bg-purple-700">
+                        Kirim Pendaftaran
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 py-10">
+        <div class="container mx-auto px-6 text-center">
+            <div class="flex justify-center space-x-6 mb-6">
+                <a href="#" class="text-gray-400 hover:text-purple-300 hover-effect">
+                    <i class="fab fa-facebook-f text-xl"></i>
+                </a>
+                <a href="#" class="text-gray-400 hover:text-purple-300 hover-effect">
+                    <i class="fab fa-twitter text-xl"></i>
+                </a>
+                <a href="#" class="text-gray-400 hover:text-purple-300 hover-effect">
+                    <i class="fab fa-instagram text-xl"></i>
+                </a>
+                <a href="#" class="text-gray-400 hover:text-purple-300 hover-effect">
+                    <i class="fab fa-youtube text-xl"></i>
+                </a>
+            </div>
+            <p class="text-gray-400">
+                © 2024 Festival Kampus Unika. All Rights Reserved.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Custom Cursor
+        const cursor = document.querySelector('.cursor');
+        const cursorFollower = document.querySelector('.cursor-follower');
+
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.pageX + 'px';
+            cursor.style.top = e.pageY + 'px';
+            
+            setTimeout(() => {
+                cursorFollower.style.left = e.pageX + 'px';
+                cursorFollower.style.top = e.pageY + 'px';
+            }, 100);
+        });
+
+        // Mobile Menu Toggle
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        menuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Form Submission
+        const registrationForm = document.getElementById('registration-form');
+        registrationForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                university: document.getElementById('university').value,
+                faculty: document.getElementById('faculty').value
+            };
+            
+            alert('Pendaftaran berhasil! Kami akan menghubungi Anda melalui email.');
+            registrationForm.reset();
+        });
+
+        // Animation on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('show');
+                }
+            });
+        });
+
+        const hiddenElements = document.querySelectorAll('.hidden');
+        hiddenElements.forEach((el) => observer.observe(el));
+    </script>
+</body>
+</html>
